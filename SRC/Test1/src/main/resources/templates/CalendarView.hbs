@@ -1,0 +1,926 @@
+<!-- Design found on startbootstrap.com and w3schools.com-->
+<!-- credit to google calednar api documentation -->
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+
+<!-- from bootstrap set up -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/Calendar.css">
+<body>
+
+<!-- sidebar design -->
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    {{#each professorList as |prof|}}
+        <a href="/dashboard/{{prof.id}}">My Dashboard</a>
+    {{/each}}
+    {{#each sidebarList}}
+        <ul>
+            <div class="dropdown">
+                <li><u>{{courseName}}</u>&#8595;
+                    <div class="dropdown-content">
+                        <ul>
+                            <li><a href="/overview/{{profId}}/{{courseId}}">Overview</a></li>
+                            <li><a href="/calendar/{{profId}}/{{courseId}}">Calendar</a></li>
+                            <li><a href="/table/{{profId}}/{{courseId}}">Material Table</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </div>
+        </ul>
+    {{/each}}
+    <a href="/">Logout</a>
+    <img src="/sources/logo.png" width="100%" align="center" alt="">
+</div>
+<span style="font-size:30px;cursor:pointer;color: white" onclick="openNav()">&#9776;</span>
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>
+<img src="/sources/logo.png" width="12%" align="right" alt="">
+<h1 class="display-2" align="center">Upcoming Calendar Events!</h1>
+<!--Add buttons to initiate auth sequence and sign out-->
+<button id="authorize_button" style=" display: none; float: right">Sign in with Google to use your calendar</button>
+<button id="signout_button" style="display: none; float: right">Unlink Google Calendar</button>
+<br>
+{{#each courseList as |course|}}
+<pre id="content" style="white-space: pre-wrap;"></pre>
+<div id="wrapper"></div>
+<script type="text/javascript">
+    // Client ID and API key from the Developer Console
+    var CLIENT_ID = '347007967143-74u9kecb1lktk22j0ctv0tb746nmuc2l.apps.googleusercontent.com';
+    var API_KEY = 'AIzaSyBKmnR0KuNmfjY2HLskhkaMFfQuIC2j8qo';
+    // Array of API discovery doc URLs for APIs used by the quickstart
+    var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+    // Authorization scopes required by the API; multiple scopes can be
+    // included, separated by spaces.
+    var SCOPES = "https://www.googleapis.com/auth/calendar.events";
+    var authorizeButton = document.getElementById('authorize_button');
+    var signoutButton = document.getElementById('signout_button');
+
+    /**
+     *  On load, called to load the auth2 library and API client library.
+     */
+    function handleClientLoad() {
+        gapi.load('client:auth2', initClient);
+    }
+
+    /**
+     *  Initializes the API client library and sets up sign-in state
+     *  listeners.
+     */
+    function initClient() {
+        gapi.client.init({
+            apiKey: API_KEY,
+            clientId: CLIENT_ID,
+            discoveryDocs: DISCOVERY_DOCS,
+            scope: SCOPES
+        }).then(function () {
+            // Listen for sign-in state changes.
+            gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+            // Handle the initial sign-in state.
+            updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+            authorizeButton.onclick = handleAuthClick;
+            signoutButton.onclick = handleSignoutClick;
+        }, function(error) {
+            appendPre(JSON.stringify(error, null, 2));
+        });
+    }
+
+    /**
+     *  Called when the signed in status changes, to update the UI
+     *  appropriately. After a sign-in, the API is called.
+     */
+    function updateSigninStatus(isSignedIn) {
+        if (isSignedIn) {
+            authorizeButton.style.display = 'none';
+            signoutButton.style.display = 'block';
+            listUpcomingEvents();
+        } else {
+            authorizeButton.style.display = 'block';
+            signoutButton.style.display = 'none';
+        }
+    }
+
+    /**
+     *  Sign in the user upon button click.
+     */
+    function handleAuthClick(event) {
+        gapi.auth2.getAuthInstance().signIn();
+    }
+
+    /**
+     *  Sign out the user upon button click.
+     */
+    function handleSignoutClick(event) {
+        gapi.auth2.getAuthInstance().signOut();
+    }
+
+    /**
+     * Append a pre element to the body containing the given message
+     * as its text node. Used to display the results of the API call.
+     *
+     * @param {string} message Text to be placed in pre element.
+     */
+    function appendPre(message) {
+        var pre = document.getElementById('content');
+        var textContent = document.createTextNode(message + '\n');
+        pre.appendChild(textContent);
+    }
+
+    /**
+     * Print the summary and start datetime/date of the next ten events in
+     * the authorized user's calendar. If no events are found an
+     * appropriate message is printed.
+     */
+
+    function listUpcomingEvents() {
+        /* this function call helps with authorization functionality */
+    }
+
+    var courseName = "{{course.courseName}}";
+    var startDate = "{{course.startDate}}";
+    var endDate = "{{course.endDate}}";
+    var lectureStartTime = "{{course.lectureStartTime}}";
+    var lectureEndTime = "{{course.lectureEndTime}}";
+    var professorName = "{{course.professorName}}";
+    var daysOfWeek = "{{course.lectureDaysOfWeek}}";
+    var ohDaysOfWeek = "{{course.ohDaysOfWeek}}";
+    var ohStartTime = "{{course.ohStartTime}}";
+    var ohEndTime = "{{course.ohEndTime}}";
+    var added = "{{course.added}}";
+
+    var temp = "";
+
+    /* remove dashes from dates */
+    for (var i = 0; i < endDate.length; i++) {
+        if (endDate[i].localeCompare("-") != 0) {
+            temp += endDate[i];
+        }
+    }
+
+    endDate = temp;
+    /* added tag for adding dates to calendar */
+    endDate += "T050000Z";
+
+    /* add courses to calendar */
+    function execute() {
+        if(added.localeCompare("false") == 0) {
+            //If lecture is only on Mondays
+            if (daysOfWeek.localeCompare("M") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName,
+
+                        "start": {
+                            "dateTime": startDate + "T" + lectureStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + lectureEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=MO;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+            }
+
+            //If lecture is only on Tuesdays
+            if (daysOfWeek.localeCompare("T") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName,
+
+                        "start": {
+                            "dateTime": startDate + "T" + lectureStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + lectureEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=TU;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+            }
+
+            //If lecture is only on Wednesdays
+            if (daysOfWeek.localeCompare("W") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName,
+
+                        "start": {
+                            "dateTime": startDate + "T" + lectureStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + lectureEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=WE;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+            }
+
+            //If lecture is only on Thursdays
+            if (daysOfWeek.localeCompare("Th") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName,
+
+                        "start": {
+                            "dateTime": startDate + "T" + lectureStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + lectureEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=TH;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+            }
+
+            //If lecture is only on Fridays
+            if (daysOfWeek.localeCompare("F") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName,
+
+                        "start": {
+                            "dateTime": startDate + "T" + lectureStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + lectureEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=FR;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+            }
+
+            //If lecture is on Mondays and Tuesdays
+            if (daysOfWeek.localeCompare("MT") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName,
+
+                        "start": {
+                            "dateTime": startDate + "T" + lectureStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + lectureEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=MO,TU;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+            }
+
+            //If lecture is on Mondays, Tuesdays, and Wednesdays
+            if (daysOfWeek.localeCompare("MTW") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName,
+
+                        "start": {
+                            "dateTime": startDate + "T" + lectureStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + lectureEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+            }
+
+            //If lecture is on Mondays, Tuesdays, Wednesdays, and Thursdays
+            if (daysOfWeek.localeCompare("MTWTh") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName,
+
+                        "start": {
+                            "dateTime": startDate + "T" + lectureStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + lectureEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+            }
+
+            //If lecture is everday of week
+            if (daysOfWeek.localeCompare("MTWThF") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName,
+
+                        "start": {
+                            "dateTime": startDate + "T" + lectureStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + lectureEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+            }
+
+            //If lecture is on Mondays and Wednesdays
+            if (daysOfWeek.localeCompare("MW") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName,
+
+                        "start": {
+                            "dateTime": startDate + "T" + lectureStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + lectureEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=MO,WE;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+            }
+
+            //If lecture is on Mondays and Thursdays
+            if (daysOfWeek.localeCompare("MTh") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName,
+
+                        "start": {
+                            "dateTime": startDate + "T" + lectureStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + lectureEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=MO,TH;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+            }
+
+
+            //If lecture is on Mondays and Fridays
+            if (daysOfWeek.localeCompare("MF") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName,
+
+                        "start": {
+                            "dateTime": startDate + "T" + lectureStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + lectureEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=MO,FR;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+            }
+
+            //If lecture is on Tuesdays and Thursdays
+            if (daysOfWeek.localeCompare("TTh") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName,
+
+                        "start": {
+                            "dateTime": startDate + "T" + lectureStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + lectureEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=TU,TH;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+            }
+
+            //If lecture is on Mondays, Wednesdays, and Fridays
+            if (daysOfWeek.localeCompare("MWF") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName,
+
+                        "start": {
+                            "dateTime": startDate + "T" + lectureStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + lectureEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=MO,WE,FR;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+
+
+            }
+
+
+        }
+    }
+
+    /* add office hours to calendar */
+    function addOH() {
+        if(added.localeCompare("false") == 0) {
+            //If lecture is on Mondays, Wednesdays, and Fridays
+            if (ohDaysOfWeek.localeCompare("MWF") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName + " office hours",
+
+                        "start": {
+                            "dateTime": startDate + "T" + ohStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + ohEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=MO,WE,FR;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+
+            }
+
+            //If lecture is on Mondays, Wednesdays, and Fridays
+            if (ohDaysOfWeek.localeCompare("TTh") == 0) {
+                return gapi.client.calendar.events.insert({
+                    "calendarId": "primary",
+                    "resource": {
+                        "description": professorName,
+                        "summary": courseName + " office hours",
+
+                        "start": {
+                            "dateTime": startDate + "T" + ohStartTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "end": {
+                            "dateTime": startDate + "T" + ohEndTime + ":00",
+                            "timeZone": "America/New_York"
+                        },
+
+                        "recurrence": [
+
+                            "RRULE:FREQ=WEEKLY;BYDAY=TU,TH;UNTIL=" + endDate,
+                        ]
+
+                    }
+                })
+
+                        .then(function (response) {
+                                    // Handle the results here (response.result has the parsed body).
+                                    console.log("Response", response);
+                                },
+                                function (err) {
+                                    console.error("Execute error", err);
+                                });
+
+
+            }
+        }
+    }
+</script>
+{{/each}}
+
+{{#each assignmentList as |assign|}}
+    <script type="text/javascript">
+
+        var CLIENT_ID = '347007967143-74u9kecb1lktk22j0ctv0tb746nmuc2l.apps.googleusercontent.com';
+        var API_KEY = 'AIzaSyBKmnR0KuNmfjY2HLskhkaMFfQuIC2j8qo';
+
+        // Array of API discovery doc URLs for APIs used by the quickstart
+        var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+
+        // Authorization scopes required by the API; multiple scopes can be
+        // included, separated by spaces.
+        var SCOPES = "https://www.googleapis.com/auth/calendar.events";
+        var authorizeButton = document.getElementById('authorize_button');
+        var signoutButton = document.getElementById('signout_button');
+
+        /**
+         *  On load, called to load the auth2 library and API client library.
+         */
+        function handleClientLoad() {
+            gapi.load('client:auth2', initClient);
+        }
+
+        /**
+         *  Initializes the API client library and sets up sign-in state
+         *  listeners.
+         */
+        function initClient() {
+            gapi.client.init({
+                apiKey: API_KEY,
+                clientId: CLIENT_ID,
+                discoveryDocs: DISCOVERY_DOCS,
+                scope: SCOPES
+            }).then(function () {
+                // Listen for sign-in state changes.
+                gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+                // Handle the initial sign-in state.
+                updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+                authorizeButton.onclick = handleAuthClick;
+                signoutButton.onclick = handleSignoutClick;
+            }, function(error) {
+                appendPre(JSON.stringify(error, null, 2));
+            });
+        }
+
+        /**
+         *  Called when the signed in status changes, to update the UI
+         *  appropriately. After a sign-in, the API is called.
+         */
+        function updateSigninStatus(isSignedIn) {
+            if (isSignedIn) {
+                authorizeButton.style.display = 'none';
+                signoutButton.style.display = 'block';
+                listUpcomingEvents();
+            } else {
+                authorizeButton.style.display = 'block';
+                signoutButton.style.display = 'none';
+            }
+        }
+
+        /**
+         *  Sign in the user upon button click.
+         */
+        function handleAuthClick(event) {
+            gapi.auth2.getAuthInstance().signIn();
+        }
+
+        /**
+         *  Sign out the user upon button click.
+         */
+        function handleSignoutClick(event) {
+            gapi.auth2.getAuthInstance().signOut();
+        }
+
+        /**
+         * Append a pre element to the body containing the given message
+         * as its text node. Used to display the results of the API call.
+         *
+         * @param {string} message Text to be placed in pre element.
+         */
+        function appendPre(message) {
+            var pre = document.getElementById('content');
+            var textContent = document.createTextNode(message + '\n');
+            pre.appendChild(textContent);
+        }
+
+        /**
+         * Print the summary and start datetime/date of the next ten events in
+         * the authorized user's calendar. If no events are found an
+         * appropriate message is printed.
+         */
+
+        function listUpcomingEvents() {
+            /* this function call helps with authorization functionality */
+        }
+
+
+
+        var dueDate = "{{assign.dueDate}}";
+        var studentTask = "{{assign.studentTask}}";
+        var added = "{{assign.added}}";
+
+
+        function addAssignment() {
+
+                if (added.localeCompare("false") == 0) {
+                    return gapi.client.calendar.events.insert({
+                        "calendarId": "primary",
+                        "resource": {
+                            "description": studentTask,
+                            "summary": studentTask,
+
+                            "start": {
+                                "dateTime": dueDate + "T" + "23:59:00",
+                                "timeZone": "America/New_York"
+                            },
+
+                            "end": {
+                                "dateTime": dueDate + "T" + "23:59:00",
+                                "timeZone": "America/New_York"
+                            },
+
+                        }
+                    })
+                            .then(function (response) {
+                                        // Handle the results here (response.result has the parsed body).
+                                        console.log("Response", response);
+                                    },
+                                    function (err) {
+                                        console.error("Execute error", err);
+                                    });
+
+                }
+
+
+        }
+
+     </script>
+
+
+{{/each}}
+
+
+{{#each courseList as |course|}}
+<form onsubmit="execute() && addOH() && addAssignment()" action="/postCalendar" method="post">
+    <button name="added" style="float: right;">Add Course Information to Calendar</button>
+    <input type="hidden" name="courseId" id="courseId" value="{{ course.courseId }}">
+    <input type="hidden" name="profId" id="profId" value="{{ course.profId }}">
+</form>
+{{/each}}
+<br>
+<script async defer src="https://apis.google.com/js/api.js"
+        onload="this.onload=function(){};handleClientLoad()"
+        onreadystatechange="if (this.readyState === 'complete') this.onload()">
+</script>
+
+{{#each professorList as |prof|}}
+    <iframe src="{{prof.calURL}}"
+            style="border: 0; margin-left: 145px; margin-top: 20px" width="1125" height="575" frameborder="10" scrolling="no"></iframe>
+{{/each}}
+<br>
+<br>
+<!-- scripts from bootstrap set up -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>

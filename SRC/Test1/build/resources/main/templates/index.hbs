@@ -1,0 +1,26 @@
+{{#partial "content"}}
+    <h1>Welcome to Course Organizer App</h1>
+
+    {{#if profId}}
+    <p>You are logged in as {{ professorName }}. </p>
+    <form action="/courses" method="get">
+
+        <button>Add a Course</button>
+    </form>
+
+    {{else}}
+    <form action="/" method="post">
+        <label for="professorName">Please enter your Professor Name:</label>
+        <input type="text" name="professorName"/> <br>
+
+        <label for="profId">Please enter your Professor ID:</label>
+        <input type="text" name="profId"/> <br>
+
+        <button>Submit</button>
+    </form>
+
+{{/if}}
+
+{{/partial}}
+
+{{> homepage.hbs}}

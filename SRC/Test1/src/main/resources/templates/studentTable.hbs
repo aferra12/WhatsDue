@@ -1,0 +1,134 @@
+<!-- Design found on startbootstrap.com and w3schools.com-->
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Course Organizer App</title>
+</head>
+<body onload="colorTable()">
+
+<!-- from bootstrap set up -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/studentTable.css">
+<script src="/js/sortTableS.js"></script>
+<!-- side bar -->
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    {{#each courseList}}
+        <a href="/studentOverview/{{profId}}/{{courseId}}">{{courseName}} Overview</a>
+        <a href="/studentTable/{{profId}}/{{courseId}}">{{courseName}} Material Table</a>
+        <a href="/studentCalendar/{{profId}}/{{courseId}}">{{courseName}} Calendar</a>
+    {{/each}}
+    <img src="/sources/logo.png" width="100%" align="center" alt="">
+</div>
+<span style="font-size:30px;cursor:pointer;color: white; padding-left: 10px" onclick="openNav()">&#9776;</span>
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>
+
+<img src="/sources/logo.png" width="12%" align="right" alt="">
+<!-- display course info in table -->
+{{#each courseList}}
+    <h1 class="display-2" align="center">Course Material</h1>
+    <h2>{{ id }}</h2>
+    <table class="table table-sm" style="width:700px" align="center">
+        <thead class="thead-dark">
+        <tr>
+            <th colspan="2">{{ courseName }}, Course ID: {{ courseId }} </th>
+        </tr>
+        <tr>
+            <td style="width:50%"> Lectures: </td>
+            <td> {{ lectureDaysOfWeek }} from {{ lectureStartTime }} - {{ lectureEndTime }} </td>
+        </tr>
+        <tr>
+            <td> Office Hours: </td>
+            <td> {{ ohDaysOfWeek }} from {{ ohStartTime }} - {{ ohEndTime }} </td>
+        </tr>
+        </thead>
+    </table>
+{{/each}}
+<br>
+<div class="searchBars">
+<input type="text" id="myInput" onkeyup="searchTableAS()" placeholder="Search for specific materials.." title="Type in a name">
+<input type="text" id="myInput1" onkeyup="searchTableDS()" placeholder="Search for due dates.." title="Type in a name">
+<input type="text" id="myInput2" onkeyup="sortMaterialsS()" placeholder="Sort by material type.." title="Type in a name">
+</div>
+
+<script>
+    /* color coding for table */
+    function colorTable() {
+        var table = document.getElementById("tableView1")
+        for (var r = 1, n = table.rows.length; r < n; r++) {
+            var str = table.rows[r].cells[3].innerHTML;
+            var check1 = str.includes("Homework")
+            var check2 = str.includes("Lecture")
+            var check3 = str.includes("Readings")
+            var check4 = str.includes("Labs")
+            var check5 = str.includes("Quiz")
+            var check6 = str.includes("Exam")
+            var check7 = str.includes("Review")
+
+            if (check1) {
+                table.rows[r].className = "Homework"
+            }
+            if (check2) {
+                table.rows[r].className = "LectureSlides"
+            }
+            if (check3) {
+                table.rows[r].className = "Readings"
+            }
+            if (check4) {
+                table.rows[r].className = "Labs"
+            }
+            if (check5) {
+                table.rows[r].className = "Quiz"
+            }
+            if (check6) {
+                table.rows[r].className = "Exam"
+            }
+            if (check7) {
+                table.rows[r].className = "Review"
+            }
+        }
+    }
+</script>
+
+<table class="table" style="width:96%" id = "tableView1" align="center">
+    <thead class="thead-dark">
+    <tr>
+        <th> Assignment Number </th>
+        <th> Material </th>
+        <th onclick="sortDueDateS()"> <u>Due date</u> <i id="iconDDS" class="fa fa-arrow-down"></i></th>
+        <th onclick="sortAlpha()"><u>Material Type</u> <i id="iconMTS" class="fa fa-arrow-down"></i></th>
+        <th> Download </th>
+    </tr>
+    </thead>
+    {{#each assignmentList}}
+            <td> Assignment {{ assignmentNumber }} </td>
+            <td> {{ studentTask }} </td>
+            <td> {{ dueDate }} </td>
+            <td> {{ materialType}} </td>
+            <td> <a href="/Now.pdf" download><form action="/table" method="post">
+                <button type="submit" name = "button" value="{{ studentTask }}">Download</button>
+            </form> </a> </td>
+        </tr>
+    {{/each}}
+</table>
+<br>
+
+<!-- from bootstrap set up -->
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

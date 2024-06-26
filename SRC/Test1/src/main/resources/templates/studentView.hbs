@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!--
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    -->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Course Organizer App</title>
+    <script src="https://kit.fontawesome.com/2d30f0a12d.js" crossorigin="anonymous"></script>
+
+</head>
+
+<!--
+<body class="bg-info text-black">
+
+-->
+
+
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/signup.css">
+<body>
+
+<link rel="stylesheet" href="/css/CourseOverview.css">
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="/">Create Account</a>
+    <a href="/courses">Edit Course</a>
+    <a href="/calendar">Edit Calendar</a>
+    <a href="/table">Assignments Table</a>
+    <a href="/account">Edit Account</a>
+</div>
+
+<span style="font-size:30px;cursor:pointer;color:white" onclick="openNav()">&#9776;</span>
+
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>
+
+
+{{#each courseList}}
+
+
+    <h2>{{ id }}</h2>
+
+    <table class="table" align="center">
+        <thead class="thead-dark">
+        <tr>
+            <th colspan="2"> Welcome to Professor {{ professorName }}'s course, {{ courseName }}! Course ID: {{ courseId }} </th>
+        </tr>
+        <tr>
+            <td> Lectures: </td>
+            <td> {{ lectureDaysOfWeek }} from {{ lectureStartTime }} - {{ lectureEndTime }} </td>
+        </tr>
+        <tr>
+            <td> Office Hours: </td>
+            <td> {{ ohDaysOfWeek }} from {{ ohStartTime }} - {{ ohEndTime }} </td>
+        </tr>
+        </thead>
+
+    </table>
+
+{{/each}}
+
+
+<br>
+
+<br>
+
+
+
+
+<br>
+
+{{#each professorList}}
+
+
+    <iframe src="{{calURL}}"
+            style="border: 0" width="900" height="500" frameborder="10" scrolling="no"></iframe>
+
+
+
+{{/each}}
+
+
+
+<!--
+
+
+<div class="dropdown">
+    <button class="dropbtn">Go To</button>
+    <div class="dropdown-content">
+        <form action="/editCourse" method="get">
+
+            <button>Edit Course</button>
+        </form>
+        <form action="/table" method="get">
+
+            <button>Assignments Table</button>
+        </form>
+        <form action="/calendar" method="get">
+
+            <button>Edit Calendar</button>
+
+        </form>
+
+
+    </div>
+</div>
+
+-->
+
+<!-- developed with help from w3schools.com -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+
+
+</body>
+</html>

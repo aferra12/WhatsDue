@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Table Adder</title>
+</head>
+<body>
+
+<h1> Adding Course Materials! </h1>
+<link rel="stylesheet" href="/css/addToTable.css">
+
+<h2> Go back to view table </h2>
+<form action="/table" method="get">
+
+    <button>View Table</button>
+</form>
+
+<h2> Add an entry </h2>
+
+<form action="/addtotable" method="post" enctype="multipart/form-data">
+
+    <label for="assignmentId">What Course is this for? (CourseId):</label>
+    <input type="text" name="assignmentId" id="assignmentId" > <br>
+
+    <label for="assignmentNumber">Assignment Number:</label>
+    <input type="number" name="assignmentNumber" id="assignmentNumber" > <br>
+
+    <label for="studentTask">Task for the student:</label>
+    <input type="text" name="studentTask" id="studentTask" > <br>
+
+    <!--
+    <label for="dueDate">Due date:</label>
+    <input type="text" name="dueDate" id="dueDate" > <br>
+    -->
+    <label for="dueDate">Due Date:</label>
+    <!--<input type="text" name="endDate" id="endDate"> <br>-->
+    <input type="date" name="dueDate" id="dueDate" > <br>
+
+    <label for="materialType">Select Material Type:</label>
+    <select name ="materialType" id="materialType">
+        <option selected disabled>Choose one</option>
+        <option value="Homework" >Homework</option>
+        <option value="Lecture Slides">Lecture Slides</option>
+        <option value="Readings">Readings</option>
+        <option value="Labs">Labs</option>
+        <option value="Quiz Materials">Quiz Materials</option>
+        <option value="Exam Materials">Exam Materials</option>
+        <option value="Review Materials">Review Materials</option>
+    </select> <br>
+    <!--<input type="text" name="materialType" id="materialType" > <br>-->
+
+    <!--
+    <label for="link">Link:</label>
+    <input type="text" name="link" id="link" > <br>
+    -->
+
+    <label for="pdf">Upload PDF:</label>
+    <input type="file" name="fileUpload" id="fileUpload" > <br>
+
+
+    <button>
+        Submit
+    </button>
+
+
+
+</form>
+
+</body>
+</html>

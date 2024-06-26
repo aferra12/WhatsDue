@@ -1,0 +1,343 @@
+<!-- Design found on startbootstrap.com -->
+<!doctype html>
+<html lang="en">
+<head>
+    <!--
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    -->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Course Organizer App</title>
+</head>
+<body onload="colorTable()">
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/TableView.css">
+
+<script src="/js/sortTable.js"></script>
+
+
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+    {{#each professorList as |prof|}}
+        <a href="/dashboard/{{prof.id}}">My Dashboard</a>
+
+    {{/each}}
+    {{#each sidebarList}}
+
+        <ul>
+            <div class="dropdown">
+                <li><u>{{courseName}}</u>&#8595;
+                    <div class="dropdown-content">
+                        <ul>
+                            <li><a href="/overview/{{profId}}/{{courseId}}">Overview</a></li>
+                            <li><a href="/calendar/{{profId}}/{{courseId}}">Calendar</a></li>
+                            <li><a href="/table/{{profId}}/{{courseId}}">Material Table</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </div>
+        </ul>
+    {{/each}}
+    <a href="/">Logout</a>
+
+</div>
+
+<span style="font-size:30px;cursor:pointer;color: white;padding-left: 10px" onclick="openNav()">&#9776;</span>
+
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>
+
+<h1 class="display-2" align="center">Course Material</h1>
+
+<br>
+
+<div class="searchBars">
+<input type="text" id="myInput" onkeyup="searchTableA()" placeholder="Search by description.." title="Type in a description">
+<input type="text" id="myInput1" onkeyup="searchTableD()" placeholder="Search by due dates.." title="Type in a date">
+<input type="text" id="myInput2" onkeyup="sortMaterials()" placeholder="Search by material type.." title="Type in a material type">
+</div>
+<br>
+
+<script>
+    function colorTable() {
+        var table = document.getElementById("tableView")
+
+        for (var r = 1, n = table.rows.length; r < n; r++) {
+            var str = table.rows[r].cells[4].innerHTML;
+            var check1 = str.includes("Homework")
+            var check2 = str.includes("Lecture")
+            var check3 = str.includes("Readings")
+            var check4 = str.includes("Labs")
+            var check5 = str.includes("Quiz")
+            var check6 = str.includes("Exam")
+            var check7 = str.includes("Review")
+
+            if (check1) {
+                table.rows[r].className = "Homework"
+            }
+            if (check2) {
+                table.rows[r].className = "LectureSlides"
+            }
+            if (check3) {
+                table.rows[r].className = "Readings"
+            }
+            if (check4) {
+                table.rows[r].className = "Labs"
+            }
+            if (check5) {
+                table.rows[r].className = "Quiz"
+            }
+            if (check6) {
+                table.rows[r].className = "Exam"
+            }
+            if (check7) {
+                table.rows[r].className = "Review"
+            }
+        }
+    }
+</script>
+
+<table class="table" style="width:96%" id = "tableView" align="center">
+    <thead class="thead-dark">
+
+    <tr>
+        <th style="text-align: center" id="DeleteButton">
+
+            <button id="open-adder" class="open-button" onclick="openAdder();closeEditor()"> Add an Entry </button>
+
+
+            <div class="editor-popup" id="myAdder">
+                <form action="/addtotable" method="post" enctype="multipart/form-data" class="form-container">
+                    <h1>Add Item</h1>
+
+                    <!--
+                    <label for="profId"><b> Prof. ID: </b></label>
+                    <input type="text" placeholder="Enter Prof. ID" name="profId" required>
+                    -->
+
+                    {{#each courseList as |course|}}
+
+                        <input type="hidden" name="profId" id="profId" value="{{ course.profId }}">
+                        <input type="hidden" name="assignmentId" id="assignmentId" value="{{ course.courseId }}">
+
+                    {{/each}}
+
+                    <label id="row-label" for="assignmentNumber"> Entry Number </label>
+                    <label id="row-label" for="studentTask"> Student Task </label><br>
+                    <input type="number" placeholder="Enter Assignment Number" name="assignmentNumber" required>
+                    <input type="text" placeholder="Enter Task" name="studentTask" required><br>
+
+                    <label id="row-label" for="dueDate">Due Date</label>
+                    <label id="row-label" for="materialType">Material Type</label><br>
+                    <input type="date" placeholder="Enter Due Date" name="dueDate" required>
+
+                    <select name ="materialType" id="materialType">
+                        <option selected disabled>Choose one</option>
+                        <option value="Homework" >Homework</option>
+                        <option value="Lecture Slides">Lecture Slides</option>
+                        <option value="Readings">Readings</option>
+                        <option value="Labs">Labs</option>
+                        <option value="Quiz Materials">Quiz Materials</option>
+                        <option value="Exam Materials">Exam Materials</option>
+                        <option value="Review Materials">Review Materials</option>
+                    </select><br>
+
+                    <label for="pdf">Upload PDF:</label>
+                    <input type="file" name="fileUpload" id="fileUpload" >
+
+                    <button type="submit" class="btn">Confirm New Entry</button>
+                    <button type="button" class="btn cancel" onclick="closeAdder()">Close</button>
+                </form>
+            </div>
+
+
+<!--
+            <button class="open-button" onclick="openEditor();closeAdder()"> Open Editor </button> -->
+
+
+            <div class="editor-popup" id="myEditor">
+                <form action="/editTable" method="post" enctype="multipart/form-data" class="form-container">
+                    <h1>Edit Entry</h1>
+
+                    <!--
+                    <label for="profId"><b> Prof. ID: </b></label>
+                    <input type="text" placeholder="Enter Prof. ID" name="profId" required>
+                    -->
+
+            {{#each courseList as |course|}}
+                    <input type="hidden" name="profId" id="profId" value="{{ course.profId }}">
+                    <input type="hidden" name="assignmentId" id="assignmentId" value="{{ course.courseId }}">
+
+            {{/each}}
+
+            {{#each assignmentList as |assign|}}
+                    <input type="hidden" name="count" id="count" value="{{assign.id}}">
+
+            {{/each}}
+
+                    <label id="row-label" for="assignmentNumberE"> Entry Number to Edit </label>
+                    <label id="row-label" for="studentTaskE"> New Student Task </label><br>
+                    <input type="number" placeholder="Enter Assignment Number" name="assignmentNumberE" id="assignmentNumberE" required>
+                    <input type="text" placeholder="Enter Task" name="studentTaskE" id="studentTaskE" required><br>
+
+                    <label id="row-label" for="dueDateE">New Due Date</label>
+                    <label id="row-label" for="materialTypeE">Material Type</label><br>
+                    <input type="date" placeholder="Enter Due Date" name="dueDateE" id="dueDateE" required>
+                    <select name ="materialTypeE" id="materialTypeE">
+                        <option selected disabled>Choose one</option>
+                        <option value="Homework" >Homework</option>
+                        <option value="Lecture Slides">Lecture Slides</option>
+                        <option value="Readings">Readings</option>
+                        <option value="Labs">Labs</option>
+                        <option value="Quiz Materials">Quiz Materials</option>
+                        <option value="Exam Materials">Exam Materials</option>
+                        <option value="Review Materials">Review Materials</option>
+                    </select><br>
+
+                    <label for="fileUploadE">Upload PDF:</label>
+                    <input type="file" name="fileUploadE" id="fileUploadE" required>
+
+                    <button type="submit" class="btn">Confirm Edit</button>
+                    <button type="button" class="btn cancel" onclick="closeEditor()">Close</button>
+                </form>
+            </div>
+
+
+            <script>
+
+
+                function closeEditor() {
+                    document.getElementById("myEditor").style.display = "none";
+                }
+                function openAdder() {
+                    document.getElementById("myAdder").style.display = "block";
+                }
+
+                function closeAdder() {
+                    document.getElementById("myAdder").style.display = "none";
+                }
+
+
+
+
+                function openEditor(assignmentNumber, studentTask, dueDate, materialType) {
+                    document.getElementById("assignmentNumberE").value = assignmentNumber;
+                    document.getElementById("studentTaskE").value = studentTask;
+                    document.getElementById("dueDateE").value = dueDate;
+                    document.getElementById("materialTypeE").value = materialType;
+                    /*
+                    document.getElementById("fileUploadE").value = doc;
+
+                     */
+
+
+
+
+                    document.getElementById("myEditor").style.display = "block";
+                }
+
+            </script>
+        </th>
+        <th style="text-align: center" onclick="sortAlpha1()" data-toggle="tooltip" title="Click to sort!"><u>Entry Number</u> <i id="iconEN" class="fa fa-arrow-down"></i></th>
+        <th style="text-align: center"> Description </th>
+        <th style="text-align: center" onclick="sortDueDate()" data-toggle="tooltip" title="Click to sort!"> <u>Due date</u> <i id="iconDD" class="fa fa-arrow-down open"></i></th>
+        <th style="text-align: center" onclick="sortAlpha()" data-toggle="tooltip" title="Click to sort!"> <u>Material Type</u> <i id="iconMT" class="fa fa-arrow-down"></i></th>
+        <th style="text-align: center"> Download Link </th>
+    </tr>
+    </thead>
+    {{#each assignmentList as |assign|}}
+        <tr>
+        <td style="text-align: center" id="DeleteButton">
+            <form action="/deleteAssignment" method="post">
+                {{#each courseList as |course|}}
+                    <input type="hidden" name="profId" id="profId" value="{{ course.profId }}">
+                    <input type="hidden" name="courseId" id="courseId" value="{{ course.courseId }}">
+                {{/each}}
+                <button id="DeleteTask" type="submit" name="taskDelete" value="{{ assign.studentTask }}">
+                    <strong> X </strong>
+                </button>
+                <button id="openEdit" type="button" class="open-button" onclick="openEditor('{{assign.assignmentNumber}}','{{assign.studentTask}}','{{assign.dueDate}}','{{assign.materialType}}');closeAdder()"> &#9998; </button>
+
+            </form>
+
+        </td>
+
+        <td style="text-align: center"> Entry {{ assign.assignmentNumber }} </td>
+        <td style="text-align: center"> {{ assign.studentTask }} </td>
+        <td style="text-align: center"> {{ assign.dueDate }} </td>
+        <td style="text-align: center"> {{ assign.materialType}} </td>
+        <td style="text-align: center"> <a href="/Now.pdf" download><form action="/table" method="post">
+            {{#each courseList as |course|}}
+
+                <input type="hidden" name="profId" id="profId" value="{{ course.profId }}">
+                <input type="hidden" name="courseId" id="courseId" value="{{ course.courseId }}">
+
+            {{/each}}
+
+            <button type="submit" name = "button" value="{{ assign.studentTask }}">Download</button>
+        </form> </a> </td>
+
+
+        </tr>
+
+    {{/each}}
+
+
+</table>
+
+
+<br>
+
+
+
+<!--
+<div class="dropdown">
+    <button class="dropbtn">Go To</button>
+    <div class="dropdown-content">
+        <form action="/overview" method="get">
+
+            <button>Overview</button>
+        </form>
+        <form action="/calendar" method="get">
+
+            <button>Calendar</button>
+
+        </form>
+
+
+    </div>
+</div>
+-->
+
+<div class="footer">
+
+    <span><strong>Course Organizer 2020</strong></span>
+
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+</body>
+</html>

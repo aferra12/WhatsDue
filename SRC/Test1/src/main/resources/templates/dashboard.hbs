@@ -1,0 +1,339 @@
+<!-- credit to startbootstrap.com and w3schools.com -->
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Course Organizer App</title>
+    <!-- for icons -->
+    <script src="https://kit.fontawesome.com/2d30f0a12d.js" crossorigin="anonymous"></script>
+</head>
+
+<!-- from bootstrap set up -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="/css/dashboard.css">
+<body>
+<!-- side bar -->
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    {{#each professorList as |prof|}}
+        <a href="/dashboard/{{prof.id}}">My Dashboard</a>
+    {{/each}}
+    {{#each sidebarList}}
+        <ul>
+            <div class="dropdown">
+                <li><u>{{courseName}}</u>&#8595;
+                    <div class="dropdown-content">
+                        <ul>
+                            <li><a href="/overview/{{profId}}/{{courseId}}">Overview</a></li>
+                            <li><a href="/calendar/{{profId}}/{{courseId}}">Calendar</a></li>
+                            <li><a href="/table/{{profId}}/{{courseId}}">Material Table</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </div>
+        </ul>
+    {{/each}}
+    <a href="/">Logout</a>
+    <img src="/sources/logo.png" width="100%" align="center" alt="">
+</div>
+<span style="font-size:30px;cursor:pointer;color:white; padding-left: 10px" onclick="openNav()">&#9776;</span>
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+    }
+
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+    }
+</script>
+
+<img src="/sources/logo.png" width="12%" align="right" alt="">
+<h1 class="display-2">Dashboard</h1>
+<!-- left side of the page -->
+<div class="split left">
+    <ul class="list-group-1">
+        <li class="list-group-item" style="background-color: cyan;color: black;text-align: center";><strong>Account Actions</strong></li></li>
+    </ul>
+    <!-- edit account popup -->
+    <div class="editor-popup" id="myAdder" align="center">
+        <form action="/editProf" method="post" class="form-container">
+            <h2 align="center">Edit Account</h2>
+            <div class="form-label-group">
+                {{#each professorList as |prof|}}
+                    <input type="hidden" name="sameId" id="sameId" value="{{prof.id}}">
+                {{/each}}
+            </div>
+            <div class="form-label-group">
+                <input type="text" name="newName" id="newName" class="form-control" placeholder="Edit Professor Name" required>
+                <label for="newName"></label>
+            </div>
+            <!-- tooltip is what shows up when you hover over text -->
+            <div class="form-label-group"   data-toggle="tooltip" title="
+               1. Go to google.com/calendar
+2. Navigate to settings in the top right
+3. Click on desired calendar under 'Settings for my calendars' on the left-hand toolbar
+4. Select 'integrate calendar'
+5. In the gray box labeled 'embed code', copy only what is inside the quotes between
+'src=' and 'style=' and paste this into the box below. You are all set!" class="red-tooltip">
+                <input type="text" name="calURL" id="calURL" class="form-control" placeholder="Link Google Calendar" required>
+                <label for="calURL"></label>
+                <u>Hover to learn how to link Google Calendar</u><br>
+            </div>
+            <br>
+            <button class="btn">Update Account Information</button>
+            <button type="button" class="btn cancel" onclick="closeAdder()">Close</button>
+        </form>
+    </div>
+    <!-- delete course popup -->
+    <div class="editor-popup" id="myEditor" align="center">
+        <form action="/deleteCourse" method="post" class="form-container">
+            <h2>Delete Course</h2>
+            <div class="form-label-group">
+                <input type="text" name="profId" id="profId" class="form-control" placeholder="Prof. ID" required>
+                <label for="profId"></label>
+            </div>
+            <div class="form-label-group">
+                <input type="text" name="courseIdDelete" id="courseIdDelete" class="form-control" placeholder="Course Number" required>
+                <label for="courseIdDelete"></label>
+            </div>
+            <button type="submit" class="btn">Confirm Delete</button>
+            <button type="button" class="btn cancel" onclick="closeEditor()">Close</button>
+        </form>
+    </div>
+    <!-- delete prof pop up -->
+    <div class="editor-popup" id="myEditor1" align="center">
+        <form action="/deleteProf" method="post" class="form-container">
+            <h2>Delete Account</h2>
+            <div class="form-label-group">
+                <input type="text" name="profIdDelete" id="profIdDelete" class="form-control" placeholder="Professor ID" required>
+                <label for="profIdDelete"></label>
+            </div>
+            <button type="submit" class="btn">Confirm Delete</button>
+            <button type="button" class="btn cancel" onclick="closeEditor()">Close</button>
+        </form>
+    </div>
+    <!-- add course by YAML pop up
+    <div class="editor-popup" id="myYaml" align="center">
+        <form action="/yaml" method="post" enctype="multipart/form-data" class="form-container">
+            <h2>Add a Course using YAML</h2>
+            <p><strong>1. Click <u><a href="/sources/CoursesTemplate.yml" download="CoursesTemplate.yml">'Download Template'</a></u><br>2. Open + edit template using text editor.<br>3. Return to this page and upload YAML file.</strong><br></p>
+            <label for="fileUploadYAML"><strong>Upload YAML File:</strong></label>
+            <input type="file" name="fileUploadYAML" id="fileUploadYAML" required>
+            <button type="submit" class="btn">Add Course By Yaml</button><br>
+            <button type="button" class="btn cancel" onclick="closeEditor3()">Close</button>
+        </form>
+    </div>
+    -->
+    <div class="open-button-div">
+        {{#each professorList as |prof|}}
+        <button id="open-adder" class="open-button" onclick="openAdder('{{prof.name}}', '{{prof.calURL}}');closeEditor()">Edit Account Information</button><br><br>
+        {{/each}}
+        <button id="editbtn" class="open-button" onclick="openEditor1();closeAdder1();alertOnDeleteA()"> Delete account </button><br><br>
+        <!-- <button id="editbtn" class="open-button" onclick="openEditor3();closeAdder3();"> Add Course Using YAML Template </button><br><br> -->
+    </div>
+    <br>
+</div>
+<!-- right side of page -->
+<div class="split right">
+        <ul class="list-group-2">
+            <li class="list-group-item" style="background-color: white;color: black;text-align: center"><button id="open-adder" onclick="closeEditorC(); openAdderC()"><u>Add Course</u></button>
+                <button id="open-adder" onclick="openEditor3();closeAdder3();"><u>Add Course Using Template</u></button></li>
+         </ul>
+        <ul class="list-group">
+            <li class="list-group-item" style="background-color: cyan;color: black;text-align: center"><strong>Your Courses</strong></li>
+        </ul>
+        {{#each courseList as |course|}}
+            <ul class="list-group">
+                <li class="list-group-item" style="font-size: 25px;background-color: lightgreen"><strong>{{course.courseId}}: {{course.courseName}}</strong> <button onclick="openEditorC('{{course.courseName}}', '{{course.startDate}}',
+                    '{{course.endDate}}', '{{course.lectureDaysOfWeek}}', '{{course.lectureStartTime}}', '{{course.lectureEndTime}}', '{{course.ohDaysOfWeek}}', '{{course.ohStartTime}}', '{{course.ohEndTime}}'); closeAdderC()" style="float: right">&#9998;</button>
+                    <form action="/deleteCourse" method="post">
+                        <input type="hidden" name="profId" id="profId" value="{{ course.profId }}">
+                        <input type="hidden" name="courseIdDelete" id="courseIdDelete" value="{{course.courseId}}">
+                    <button style="float:right">
+                        <!-- trash can -->
+                        <strong> &#128465; </strong>
+                    </button>
+                    </form>
+                </li>
+                <li class="list-group-item"><a href="/overview/{{course.profId}}/{{course.courseId}}"><u>Overview</u></a></li>
+                <li class="list-group-item"><a href="/calendar/{{course.profId}}/{{course.courseId}}"><u>Calendar</u></a></li>
+                <li class="list-group-item"><a href="/table/{{course.profId}}/{{course.courseId}}"><u>Material Table</u></a></li>
+            </ul>
+        {{/each}}
+</div>
+<!-- pop up when you click pencil -->
+<div class="editor-popupC" id="myEditorC">
+    <form action="/editCourse" method="post" class="form-containerC">
+        <h2>Edit Course</h2>
+        {{#each courseList as |course|}}
+            <input type="hidden" name="courseId" id="courseid" value="{{course.courseId}}">
+        {{/each}}
+        {{#each professorList as |prof|}}
+            <input type="hidden" name="profId" id="profId" value="{{ prof.id }}">
+            <input type="hidden" name="professorName" id="professorName" value="{{ prof.name }}">
+        {{/each}}
+        <label for="courseName">Course Name:</label><br>
+        <input type="text" name="courseName" id="courseName"> <br>
+
+        <label id="row-label" for="startDate">Start Date:</label>
+        <label id="row-label" for="endDate">End Date:</label><br>
+        <input type="date" name="startDate" id="startDate">
+        <input type="date" name="endDate" id="endDate"> <br>
+
+        <label id="row-label" for="lectureDaysOfWeek">Lecture Meeting Days (ex: MWF):</label>
+        <label id="row-label" for="ohDaysOfWeek">Office Hours Meeting Days (ex: MThF):</label><br>
+        <input type="text" name="lectureDaysOfWeek" id="lectureDaysOfWeek">
+        <input type="text" name="ohDaysOfWeek" id="ohDaysOfWeek"> <br>
+
+        <label id="row-label" for="lectureStartTime">Lecture Start Time:</label>
+        <label id="row-label" for="ohStartTime">Office Hours Start Time:</label><br>
+        <input type="time" name ="lectureStartTime" id="lectureStartTime">
+        <input type="time" name ="ohStartTime" id="ohStartTime"> <br>
+
+        <label id="row-label" for="lectureEndTime">End Time:</label>
+        <label id="row-label" for="ohEndTime">Office Hours End Time:</label><br>
+        <input type="time" name ="lectureEndTime" id="lectureEndTime">
+        <input type="time" name ="ohEndTime" id="ohEndTime"> <br>
+        <br>
+        <button type="submit" class="btn">Confirm Edit</button>
+        <button type="button" class="btn cancel" onclick="closeEditorC()">Close</button>
+    </form>
+</div>
+
+<!-- add course pop up -->
+<div class="editor-popupC" id="myAdderC" align="center">
+    <form action="/courses" method="post" class="form-containerC">
+        <h2>Add Course</h2>
+        <label id="row-label" for="id">Course Number (ex: EN.600.414):</label>
+        <label id="row-label" for="courseName">Course Name:</label><br>
+        <input type="text" name="courseId" id="courseId" required>
+        <input type="text" name="courseName" id="courseName" required> <br>
+        {{#each professorList as |prof|}}
+            <input type="hidden" name="profId" id="profId" value="{{ prof.id }}">
+            <input type="hidden" name="professorName" id="professorName" value="{{ prof.name }}">
+        {{/each}}
+
+        <label id="row-label" for="startDate">Start Date:</label>
+        <label id="row-label" for="endDate">End Date:</label><br>
+        <input type="date" name="startDate" id="startDate" required>
+
+        <input type="date" name="endDate" id="endDate" required> <br>
+
+        <label id="row-label" for="lectureDaysOfWeek">Lecture Meeting Days (ex: MWF):</label>
+        <label id="row-label" for="ohDaysOfWeek">Office Hours Meeting Days (ex: MThF):</label><br>
+        <input type="text" name="lectureDaysOfWeek" id="lectureDaysOfWeek" required>
+        <input type="text" name="ohDaysOfWeek" id="ohDaysOfWeek"> <br>
+
+        <label id="row-label" for="lectureStartTime">Lecture Start Time:</label>
+        <label id="row-label" for="ohStartTime">Office Hours Start Time:</label><br>
+        <input type="time" name ="lectureStartTime" id="lectureStartTime" required>
+        <input type="time" name ="ohStartTime" id="ohStartTime"> <br>
+
+        <label id="row-label" for="lectureEndTime">Lecture End Time:</label>
+        <label id="row-label" for="ohEndTime">Office Hours End Time:</label><br>
+        <input type="time" name ="lectureEndTime" id="lectureEndTime" required>
+        <input type="time" name ="ohEndTime" id="ohEndTime"> <br>
+        <br>
+        <button class="btn">Confirm New Course</button>
+        <button type="button" class="btn cancel" onclick="closeAdderC()">Close</button>
+    </form>
+</div>
+<div class="editor-popupC" id="myYaml">
+    <form action="/yaml" method="post" enctype="multipart/form-data" class="form-containerC">
+        <h2>Add a Course using Template</h2>
+        <p><strong>1. Click <u><a href="/sources/CoursesTemplate.yml" download="CoursesTemplate.yml" style="color: red;">here</a></u> to download template.<br>2. Open + edit template using text editor.<br>3. Return to this page and upload template.<br>
+        4. Click 'Add Course By Template'</strong><br></p>
+        <label for="fileUploadYAML"><strong>Upload Template:</strong></label>
+        <input type="file" name="fileUploadYAML" id="fileUploadYAML" required>
+        <button type="submit" class="btn">Add Course By Template</button><br>
+        <button type="button" class="btn cancel" onclick="closeEditor3()">Close</button><br><br>
+    </form>
+</div>
+
+<!-- functions for opening pop ups -->
+<script>
+    function alertOnDeleteA() {
+        alert("Deleting account will delete all courses and material associated with the account. Press OK to proceed.")
+    }
+    function openEditor() {
+        document.getElementById("myEditor").style.display = "block";
+    }
+    function closeEditor() {
+        document.getElementById("myEditor").style.display = "none";
+        document.getElementById("myEditor1").style.display = "none";
+        document.getElementById("myEditor2").style.display = "none";
+    }
+    function openAdder(newName, calURL) {
+        document.getElementById("newName").value = newName;
+        document.getElementById("calURL").value = calURL;
+        document.getElementById("myAdder").style.display = "block";
+    }
+    function closeAdder() {
+        document.getElementById("myAdder").style.display = "none";
+        document.getElementById("myEditor1").style.display = "none";
+        document.getElementById("myEditor2").style.display = "none";
+    }
+    function openEditor1() {
+        document.getElementById("myEditor1").style.display = "block";
+    }
+    function openEditor2() {
+        document.getElementById("myEditor2").style.display = "block";
+    }
+    function openEditor3() {
+        document.getElementById("myYaml").style.display = "block";
+    }
+    function closeEditor3() {
+        document.getElementById("myYaml").style.display = "none";
+    }
+    function closeAdder1() {
+        document.getElementById("myAdder").style.display = "none";
+        document.getElementById("myEditor").style.display = "none";
+        document.getElementById("myEditor2").style.display = "none";
+    }
+    function closeAdder2() {
+        document.getElementById("myAdder").style.display = "none";
+        document.getElementById("myEditor").style.display = "none";
+        document.getElementById("myEditor1").style.display = "none";
+    }
+    function closeAdder3() {
+        document.getElementById("myAdder").style.display = "none";
+        document.getElementById("myEditor").style.display = "none";
+        document.getElementById("myEditor1").style.display = "none";
+        document.getElementById("myEditor2").style.display = "none";
+    }
+
+    function openEditorC(courseName, startDate, endDate, lectureDaysOfWeek, lectureStartTime, lectureEndTime,
+                         ohDaysOfWeek, ohStartTime, ohEndTime) {
+        /* set correct values in the form to prepopulate */
+        document.getElementById("courseName").value = courseName;
+        document.getElementById("startDate").value = startDate;
+        document.getElementById("endDate").value = endDate;
+        document.getElementById("lectureDaysOfWeek").value = lectureDaysOfWeek;
+        document.getElementById("lectureStartTime").value = lectureStartTime;
+        document.getElementById("lectureEndTime").value = lectureEndTime;
+        document.getElementById("ohDaysOfWeek").value = ohDaysOfWeek;
+        document.getElementById("ohStartTime").value = ohStartTime;
+        document.getElementById("ohEndTime").value = ohEndTime;
+        document.getElementById("myEditorC").style.display = "block";
+    }
+    function closeEditorC() {
+        document.getElementById("myEditorC").style.display = "none";
+    }
+    function openAdderC() {
+        document.getElementById("myAdderC").style.display = "block";
+    }
+    function closeAdderC() {
+        document.getElementById("myAdderC").style.display = "none";
+    }
+</script>
+
+<!-- from bootstrap set up -->
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+</body>
+</html>

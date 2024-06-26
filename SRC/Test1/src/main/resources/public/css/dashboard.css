@@ -1,0 +1,516 @@
+/* developed with help from w3schools.com and startbootstrap.com */
+body{
+    background: #007bff;
+    background: linear-gradient(to right, #33AEFF, #0062E6, #33AEFF);
+}
+
+h1 {
+
+    font-family: "Impact", Charcoal, sans-serif;
+    -webkit-text-stroke: 2px white;
+    -webkit-text-fill-color: black;
+    margin-left: 35%;
+}
+
+table {
+    border: 3px solid ghostwhite;
+    border-collapse: collapse;
+}
+
+th {
+    border-right: 1px solid ghostwhite;
+    cursor: pointer;
+    text-align: center;
+}
+
+td {
+    border-top: 1px solid ghostwhite;
+    border-right: 1px solid ghostwhite;
+    text-align: center;
+    color: ghostwhite;
+}
+
+button {
+    padding: 3px 7px;
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #000000;
+    background-color: #FFFFFF;
+    border: #000000;
+    border-radius: 5px;
+    transition-duration: 0.4s;
+}
+
+button#Homepage {
+    position:absolute;
+    margin-bottom: 50%;
+}
+
+button:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+}
+
+button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+.dropbtn {
+    background-color: #FFFFFF;
+    color: black;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #000000;
+}
+
+iframe {
+    margin-left: 20%;
+}
+
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: white;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 15px;
+    color: black;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: lightskyblue;
+}
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+a {
+    color: white;
+}
+
+a:hover {
+    color: red;
+}
+
+ul {
+    list-style-type: none;
+    padding: 8px 8px 8px 32px;
+    width: 30%;
+
+}
+
+.dropdown {
+
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+}
+
+.dropdown-content a {
+    color: black;
+    text-decoration: none;
+}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+
+
+.list-group {
+
+    margin-left: 17%;
+    width: 75%;
+}
+
+.list-group-1 {
+    margin-left: 190px;
+    width: 55%;
+    margin-top: 15px;
+
+}
+
+.list-group-2 {
+    margin-top: 15px;
+    margin-left: 190px;
+    width: 55%;
+}
+
+
+.list-group-item {
+
+    color: black;
+}
+
+.list-group-item a {
+    color: black;
+}
+
+.list-group-item a:hover {
+    color: red;
+}
+
+.split {
+    height: 100%;
+    width: 50%;
+    position: absolute;
+    top: 0;
+    padding-top: 20px;
+}
+
+.left {
+    margin-top: 13%;
+    left: 0;
+
+}
+
+.right {
+
+    margin-top: 7%;
+    right: 0;
+
+}
+
+
+* {box-sizing: border-box;}
+
+/* Button used to open the contact form - fixed at the bottom of the page */
+.open-button {
+    margin-left: 222px;
+    font-size: 16px;
+    cursor: pointer;
+    outline: none;
+    border: #000000;
+    border-radius: 5px;
+    background-color: white;
+    padding: 20px 43px;
+//text-align: center;
+    color: black;
+    position: center;
+    width: 50%;
+}
+
+/* The popup form - hidden by default */
+.editor-popup {
+
+    border-radius: 25px;
+    position: absolute;
+    text-align: center;
+    display: none;
+    left: 34%;
+    bottom: 34%;
+    z-index: 5;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+/* Add styles to the form container */
+.form-container {
+    border-radius: 25px;
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+
+
+}
+
+.form-container a {
+    color: red;
+}
+
+.form-container a:hover {
+    color: lightgreen;
+}
+
+/* Full-width input fields */
+.form-container input[type=text],
+.form-container input[type=date],
+.form-container input[type=number],
+.form-container input[type=file],
+.form-container select[name=materialType] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 5px 0;
+    border: none;
+    background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus,
+.form-container input[type=date]:focus,
+.form-container input[type=number]:focus,
+.form-container input[type=file]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+    background-color: #80d0f8;
+    color: black;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+    background-color: red;
+    color: black;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover, button#DeleteTask:hover {
+    opacity: 1;
+}
+
+.open-button:hover {
+    background-color: #000000;
+    color: #FFFFFF
+}
+
+.open-button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+.open-button a {
+    font-size: 16px;
+    color: black;
+}
+
+.open-button a:hover {
+    color: white;
+    background-color: black;
+}
+
+
+
+.dropdown u:hover {
+    color: lightskyblue;
+}
+
+
+/* The popup form - hidden by default
+.editor-popup {
+
+    position: absolute;
+    text-align: center;
+    display: none;
+    right: 40%;
+    z-index: 5;
+}
+
+ */
+
+.editor-popupC {
+
+    position: absolute;
+    text-align: center;
+    display: none;
+    right: 20%;
+    z-index: 5;
+    width: 900px;
+    height: 400px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* Add styles to the form container */
+.form-containerC {
+
+    max-width: 900px;
+    margin-bottom: 25px;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: white;
+    text-align: center;
+}
+
+/* Full-width input fields */
+.form-containerC input[type=text],
+.form-containerC input[type=date],
+.form-containerC input[type=number],
+.form-containerC input[type=file],
+.form-containerC select[name=materialType] {
+    width: 40%;
+    padding: 15px;
+    margin: 5px 0 15px 0;
+    border-radius: 15px;
+    background: #f1f1f1;
+}
+
+.form-containerC input[type=time] {
+    width: 30%;
+    padding: 5px 10px;
+    margin: 0 35px;
+    border-radius: 15px;
+    background: #A9A9A9;
+}
+
+label#row-label {
+    Width: 40%;
+    margin: 5px 0 5px 0;
+}
+
+/* When the inputs get focus, do something */
+.form-containerC input[type=text]:focus,
+.form-containerC input[type=date]:focus,
+.form-containerC input[type=number]:focus,
+.form-containerC input[type=file]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-containerC .btn {
+    background-color: #80d0f8;
+    color: black;
+    padding: 16px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    width: 45%;
+    margin-bottom:10px;
+    opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-containerC .cancel {
+    background-color: red;
+    color: black;
+    border-radius: 15px;
+}
+
+/* Add some hover effects to buttons */
+.form-containerC .btn:hover, .open-button:hover, button#DeleteTask:hover {
+    opacity: 1;
+}
+
+/* Add styles to the form container */
+.form-container {
+
+    max-width: 300px;
+    padding: 10px;
+    background-color: white;
+    text-align: center;
+}
+
+/* Full-width input fields */
+.form-container input[type=text],
+.form-container input[type=date],
+.form-container input[type=number],
+.form-container input[type=file],
+.form-container select[name=materialType] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type=text]:focus,
+.form-container input[type=date]:focus,
+.form-container input[type=number]:focus,
+.form-container input[type=file]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+    background-color: #80d0f8;
+    color: black;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+}
+
+/* Add a red background color to the cancel button */
+.form-container .cancel {
+    background-color: red;
+    color: black;
+}
+
+/* Add some hover effects to buttons */
+.form-container .btn:hover, .open-button:hover, button#DeleteTask:hover {
+    opacity: 1;
+}
+
+
+
+
+
+
+
+
+
+
