@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Course Organizer</title>
+</head>
+<body>
+<h1>Welcome to Your Course Organizer Calendar View!</h1>
+
+
+<ul>
+    {{#each courseList}}
+        <li> Course Name: <strong>{{ courseName }}</strong> <br> Professor: <strong>{{ professorName }}</strong> <br>
+            Begins on <strong>{{startDate}}</strong> and ends on <strong>{{endDate}}</strong> <br> Meets on <strong>{{lectureDaysOfWeek}}</strong> from
+            <strong>{{lectureStartTime}} - {{lectureEndTime}}</strong> <br> Office Hours are on <strong>{{ohDaysOfWeek}}</strong> from
+            <strong>{{ohStartTime}} - {{ohEndTime}}</strong> </li> <br>
+    {{/each}}
+
+</ul>
+
+
+
+<!--
+{{!#if username}}
+    <p>You are signed in as {{! username }}</p>
+{{!else}}
+    <form action="/" method="post">
+        <input type="text" placeholder="username" name="username">
+        <button>sign in</button>
+    </form>
+{{!/if}}
+-->
+
+<p>View <a href="/">Homepage</a></p>
+</body>
+</html>

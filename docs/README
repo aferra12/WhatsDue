@@ -1,0 +1,157 @@
+Adam AJ Brian Hedin Joey
+
+Iteration 5
+- Heroku Link: https://polar-spire-23758.herokuapp.com/
+
+- To run locally:
+1. Download, open and run webServer.java NOTE: All other files and packages (Course.java, JDBCCourseCRUDPersister.java, .hbs files, etc)
+                                               must also be downloaded in order for the page to render and function correctly. 
+2. In your browser (Chrome, Safari, Explorer) navigate to localhost:4567
+3. Interact with the web page
+
+- To test locally:
+1. JDBCCourseCRUDPersisterTest.java, JDBCAssignmentCRUDPersisterTest.java, and JDBCProfessorCRUDPersisterTest.java can all be run
+in intelliJ and all use JUnit tests to display the functionality of our back-end. 
+
+-To test with Postman:
+1. Download the json file CourseOrganizer.postman_collection from our repository in the 'docs' folder
+2. Open Postman and select 'import' and open the json file (it will add a folder to your collections on the left hand side of page)
+3. Prior to running the tests, you must add inputs for two of the tests, http://localhost:4567/addtotable and 
+http://localhost:4567/editTable. Tests can be found by clicking the arrow to the left of the collection folder icon. 
+4. For each of these tests, select the test name in the left hand side bar, select 'Body,' click 'Select Files' and upload a 
+pdf from your device. This will ensure assignments are able to be added correctly. Make sure to save the tests once adding a file.
+5. After adding these files, make sure webServer.java is running in intelliJ and run the collection of tests. To run a collection
+select the play button to the right of the collection name, click the blue run button, and click the blue run button that appears at the
+bottom of the pop-up (Collection Runner) that comes up. After running them, you should be able to navigate to http://localhost:4567 and 
+login with username Brian and professorId blinton1. You should also be able to view the course added and corresponding assignment.
+6. All tests should return 200 OK after running. 
+
+- Final Retrospective:
+Our group had a winding road to reach the final product of What's Due, but we are very happy and proud of what we have developed. 
+Our original idea of a platform for students to communicate about course work and outline their upcoming events transformed into an
+application where professors are able to beautifully organize their courses and easily keep students up to date with their school work.
+
+Our problem statement was: "Professors do not currently have a tool to organize class material on their websites in an easy, 
+organized, efficient way." Our group proposed a solution of: "We will create a simple tool to organize course material 
+in multiple, easy to use views. Professors can easily upload pertinent material to be viewed by students."
+
+Our application allows professors to organize their course material in "multiple, easy to use views" and uploading material is very easy. 
+With the help of YAML templates, professors are able to add information such as course name, start time, end time, and what days of the 
+week lectures are on with just a few button clicks. Professors are also able to upload all kinds of course material, from homeworks to 
+lecture slides, and students can easily download these files to their own devices. In addition, professors can easily add due dates and 
+course meeting times to a class calendar, so that students can export this calendar to their own google calendar and be kept up to date
+with what is happening in the course. This course material is also easily sorted on the web page, and can be filtered by material type
+and due date, so students and professors can quickly find what they are looking for. Professors and students can easily navigate between
+the course overview, course material, and course calendar, allowing them to view their course in many different ways very quickly. In
+addition, we added a feature that allows a professor to instantly notify students via text when a new assignment is added to their course
+or an assignment is added; no longer do professors have to craft mass emails, our application will send these texts automatically. 
+Professors need only to link a personal Twilio account, and they are able to upload their students phone numbers to text them. 
+
+We were able to deliver all of our Must-Haves on our RSD, however there were a few pivots along the way. Adding in text notifications was
+also an added feature, one that we did not plan for, even in our Nice-to-Haves. In the future, we hope to extend the YAML features to 
+allow professors to populate the entire webpage with one file, and hope to make our web application compatible with many other calendar
+platforms outside of Google. 
+
+Our final product was not achieved without struggle along the way. We had multiple meetings with our project advisors and professor
+to discuss our progress and their visions for our product. This led to us making multiple pivots, forcing us to work many long nights 
+and early mornings, and hold many group meetings via Zoom to discuss how to best and most quickly implement the suggestions that we were
+given. Moving to remote classes was definitely a challenge, as our group thrived off of group coding and bouncing ideas off of each other.
+We were able to adapt and do this over Zoom however, and also utilized GitHub to view and give suggestions on each others work.
+
+If we could start this project over again, we would hope to have a bit clearer vision of what we were setting out to create prior to 
+beginning. Although no group begins a project and knows what their final product will look like, many have a clearer picture of what it
+will be like than we did. This caused our work to be slow at times, as we had to figure out how to pivot and re-shape our application to
+handle new demands. However, in the end we were able to overcome these pivots and develop something we are all very proud of. Ideally, 
+we would all have been together in person to develop our application, as this makes communication much easier. Nonetheless, our group 
+did a great job of adapting to the circumstances and achieved something awesome. 
+
+Thank you very much for all your help and guidance throughout the creation of What's Due, we are all very appreciative!
+
+-Adam, AJ, Brian, Hedin, Joey
+
+
+
+
+
+Iteration 4:
+To run locally:
+1. Run webServer.java
+2. Navigate to localhost:4567 in your browser
+3. Interact with the website
+
+Heroku Link:
+https://secret-fjord-14195.herokuapp.com/
+
+In a hypothetical world where we are professors, we would provide our students with a link to view material we have uploaded.
+To get to the student view of a course, direct your browser to 
+https://secret-fjord-14195.herokuapp.com/studentOverview/whateverprofessoridyouused/whateverthecourseidis
+Locally, navigate to:
+localhost:4567/studentOverview/whateverprofessoridyouused/whateverthecourseidis
+
+
+Things we added in iteration 4:
+JUnit Tests for Assignments 
+Postman tests for all endpoints
+Added sorting and searching functions to material table
+Added pop ups and color coding to material table
+Improved UI with bootstrap
+Added text message updates that send automatically on assignment upload and edit
+Added student view of website
+Added url generation to improve functionality with multiple courses and professors
+Added sign up and login page
+Added custom calendar upload for professors
+
+
+
+
+Iteration 3:
+
+
+FOR ITERATION 3:
+
+TO RUN THE WEBSITE:
+1. Run webServer.java
+2. Navigate to localhost:4567 in your browser
+3. Interact with the website (***When uploading an assignment, ensure that it is in pdf format***)
+                             (***To add courses/assignments to calendar, 
+                              add courses and assignments on their respective pages and then click "Add Information to Calendar"***)
+
+
+Iteration 2:
+
+What we added:
+We added a Professor and Assignment class, as well as Dao classes for each of these. We added persisters for the course and professor, 
+and added a connection to a SQLite database for courses and professors. Professors and courses are linked by a professor name using a 
+foreign key constraint. This means that if a professors name is not existent in the professors table, a course can not be added with that 
+professors name. 
+
+We added a table view for both the course outline and assignments that can be populated by user input. Additionally, we added a page to view
+the course in a calendar view. This page does not have fully working functionality yet, however we included it so that our hope for the future 
+can be seen. We hope to add functionality so that a professor can populate the calendar with information about their course. We also
+will try to get it so that when Assignments are added to the assignment table they will show up in the calendar. 
+
+We also added css to make our website look better. We hope to continue to develop this to imporve the visual appeal of the website. 
+
+Our code was mostly developed using group coding, however different group members took turns typing the code on their laptops so that 
+everyone got experience writing different types of code. 
+
+FOR ITERATION 2:
+
+TO RUN THE WEBSITE:
+NOTE: The calendar page still needs added functionality (it was not a must-have for iteration 2), however we wanted to include 
+a basic version of it in the iteration to show what is in store for the future. If you click the 'Authorize' button, you are 
+able to sign in using your gmail account through advanced settings, however we are still working on giving multiple gmail 
+accounts access to the 'Whats-Due' calendar so that a professor is able to populate the calendar with their course information. 
+As of now, the calendar has added functionality that only works on the creators (AJ) laptop. We are working to make these features available to all users. 
+
+NOTE: Sometimes, the Store.db in intelliJ will not get rewritten on a new run. If you run and try to add a course and receive an internal
+500 error, stop the webServer, delete your Store.db, and re-run the server. 
+
+1. run webServer.java
+2. Navigate to localhost:4567 in your browser
+3. Interact with website to add a course ****(make sure every field is filled out before clicking submit when adding a course!)****
+4. Interact with the website using the buttons provided
+
+TO TEST THE DATABASE:
+1. Run test files (JDBCCourseCRUDPersisterTest and JDBCProfessorCRUDPersisterTest) to view desired database behavior. All tests should
+pass. 
