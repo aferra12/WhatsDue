@@ -1,5 +1,4 @@
-# WhatsDue
-Course Management Web Platform for Teachers
+# WhatsDue - Course Management Web Platform for Teachers
 
 AJ Adam Brian Hedin Joey
 
